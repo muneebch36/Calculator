@@ -7,10 +7,10 @@ const deleteKey = document.querySelector(".delete");
 const decimalKey = document.querySelector(".decimal");
 
 let x = null;
-let y = null;
+let y = "";
 let z = null;
 let savedOperator = null;
-
+let displayNumber = "";
 
 const divide = function(x,y) {
     return z = x / y;
@@ -28,60 +28,53 @@ const add = function(x,y) {
     return z = x + y;
 }
 
-const operate = function() {
+const operate = function(x,y) {
 switch(savedOperator) {
 case "divide":
-	divide(x,y);
-    displayScreen.textContent = z;
-	break;
+    return divide(x,y);
 case "multiply":
-	multiply(x,y);
-    displayScreen.textContent = z;
-	break;
+    return multiply(x,y);
 case "subtract":
-	subtract(x,y);
-    displayScreen.textContent = z;
-	break;
+	return subtract(x,y);
 case "add":
-	add(x,y);
-    displayScreen.textContent = z;
-	break;
+	return add(x,y);
 }
 }
-
-equalKey.addEventListener("click", function() {
-    displayScreen.textContent = "hello";
-    operate(x,y);
-
-});
 
 numberKeys.forEach(function(button) {
     button.addEventListener("click", function() {
-        displayScreen.textContent += button.value;
-        displayScreen.textContent = displayScreen.textContent.replace(/^0+/, '');
+        displayNumber += button.value;
+        displayScreen.textContent = displayNumber;
         if (typeof(savedOperator) === "string") {;
-            y = parseInt(button.value);
+            y += button.value;
             displayScreen.textContent = y;
+            y = parseInt(displayScreen.textContent);
+            operate(x,y);
         } else {
-            x = parseInt(button.value);
+            x = parseInt(displayNumber);
         }
     })
 });
 
 operatorKeys.forEach(function(button) {
     button.addEventListener("click", function() {
+        if (typeof(x && y) === "number") {     
+            displayScreen.textContent = z;
+            }    
     return savedOperator = button.className;
     })
 });
 
-
+equalKey.addEventListener("click", function() {
+    displayScreen.textContent = z;
+});
 
 clearKey.addEventListener("click", function() {
     displayScreen.textContent = 0;
-    x = 0;
-    y = 0;
-    z = 0;
-    savedOperator = 0;
+    x = null;
+    y = null;
+    z = null;
+    savedOperator = null;
 });
 
 deleteKey.addEventListener("click", function() {
@@ -96,11 +89,4 @@ deleteKey.addEventListener("click", function() {
     }
 });
 
-function clearAll() {
-    displayScreen.textContent = "0";
-    x = null;
-    y = null;
-    z = null;
-    savedOperator = null;
-  };
   
