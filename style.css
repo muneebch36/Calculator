@@ -76,8 +76,6 @@ button:hover {
 }
 
 .equal {
-  color: #337cac;
-  grid-column: 4;
   grid-row: 5;
 }
 

@@ -6,26 +6,32 @@ const clearKey = document.querySelector("#clear");
 const deleteKey = document.querySelector(".delete");
 const decimalKey = document.querySelector(".decimal");
 
-let x = null;
+let x = "";
 let y = "";
-let z = null;
+let z = "";
 let savedOperator = null;
 let displayNumber = "";
 
 const divide = function(x,y) {
-    return z = x / y;
-}
+    if (y === 0) {
+        return z = "U srs bro?"
+    } else {
+        return z = parseFloat((x / y).toFixed(2)); //parseFloat gets rids of trailing zeros that toFixed gives to whole numbers. 
+    }
+} 
 
 const multiply = function(x,y) {
-    return z = x * y;
+    return z = parseFloat((x * y).toFixed(2));
 }
 
 const subtract = function(x,y) {
-    return z = x - y;
+    return z = parseFloat((x - y).toFixed(2));
 }
 
 const add = function(x,y) {
-    return z = x + y;
+    intX = parseFloat(x); //have to convert x and y to numbers as adding strings contaning numbers concatenates them instead. 
+    intY = parseFloat(y);
+    return z = parseFloat((intX + intY).toFixed(2));
 }
 
 const operate = function(x,y) {
@@ -45,48 +51,66 @@ numberKeys.forEach(function(button) {
     button.addEventListener("click", function() {
         displayNumber += button.value;
         displayScreen.textContent = displayNumber;
-        if (typeof(savedOperator) === "string") {;
-            y += button.value;
+        if (displayNumber.length > 7) {
+            return displayNumber = displayNumber.substring(0,7);
+        } else if (typeof(savedOperator) === "string") {
+            y = displayNumber;
             displayScreen.textContent = y;
-            y = parseInt(displayScreen.textContent);
             operate(x,y);
         } else {
-            x = parseInt(displayNumber);
+            x = displayNumber;
+            displayScreen.textContent = x;
         }
     })
 });
 
 operatorKeys.forEach(function(button) {
     button.addEventListener("click", function() {
-        if (typeof(x && y) === "number") {     
-            displayScreen.textContent = z;
-            }    
+        if ((!x === false) && (!y === false)) {     
+                displayScreen.textContent = z;
+                x = z;
+                y = "";
+                displayNumber = "";
+            } else {
+                displayNumber = "";
+            }   
     return savedOperator = button.className;
     })
 });
 
-equalKey.addEventListener("click", function() {
-    displayScreen.textContent = z;
-});
-
 clearKey.addEventListener("click", function() {
-    displayScreen.textContent = 0;
-    x = null;
-    y = null;
-    z = null;
-    savedOperator = null;
+        displayScreen.textContent = 0;
+        x = "";
+        y = "";
+        z = "";
+        savedOperator = null;
+        displayNumber = "";
+    });
+
+decimalKey.addEventListener("click", function() {
+    if (displayScreen.textContent.includes(".") === true) {     
+            return;
+        } else {
+            displayScreen.textContent = displayScreen.textContent + ".";
+            displayNumber = displayNumber + ".";
+            }   
 });
 
-deleteKey.addEventListener("click", function() {
+/* deleteKey.addEventListener("click", function() {
     if (displayScreen.textContent.length == 1 && displayScreen.textContent != "0") {;
         displayScreen.textContent = "0"
+        displayNumber = "";
+        x = "";
+        y = "";
+        z = "";
     } else if (displayScreen.textContent.includes("-",".") && displayScreen.textContent.length == 2) {
         displayScreen.textContent = "0"         
-    } else if (displayScreen.textContent == "0") {
+    } else if (displayScreen.textContent === "0") {
         return;         
     } else {
+        displayNumber = displayNumber.slice(0, -1); 
+        x = x.slice(0, -1); 
+        y = y.slice(0, -1); 
         displayScreen.textContent = displayScreen.textContent.slice(0, -1)
     }
-});
-
-  
+}); */
