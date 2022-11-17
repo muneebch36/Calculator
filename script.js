@@ -13,8 +13,8 @@ let savedOperator = null;
 let displayNumber = "";
 
 const divide = function(x,y) {
-    if (y === 0) {
-        return z = "U srs bro?"
+    if (+y === 0) {
+        return z = "Dave. I'm Afraid I Can't Do That."
     } else {
         return z = parseFloat((x / y).toFixed(2)); //parseFloat gets rids of trailing zeros that toFixed gives to whole numbers. 
     }
@@ -29,9 +29,7 @@ const subtract = function(x,y) {
 }
 
 const add = function(x,y) {
-    intX = parseFloat(x); //have to convert x and y to numbers as adding strings contaning numbers concatenates them instead. 
-    intY = parseFloat(y);
-    return z = parseFloat((intX + intY).toFixed(2));
+    return z = parseFloat((+x + +y).toFixed(2)); //x and y converted to integer to prevent string concatenation 
 }
 
 const operate = function(x,y) {
@@ -71,7 +69,9 @@ operatorKeys.forEach(function(button) {
                 x = z;
                 y = "";
                 displayNumber = "";
-            } else {
+            } else if ((!x === true) && (!y === true)) {
+                return savedOperator = null;
+            }   else {
                 displayNumber = "";
             }   
     return savedOperator = button.className;
